@@ -13,8 +13,12 @@ body {
 
 #guess-word {
     display: block;
+    text-align: left;
 }
 
 #score {
-    display: block;
+    display: flex;
+    flex-direction: wrap;
+    justify-content: center;
+    text-align: left;
 }
