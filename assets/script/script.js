@@ -1,5 +1,5 @@
 var startGame = document.querySelector("#start");
-var timer = 
+var timer = document.querySelector("#score");
 
 
 
