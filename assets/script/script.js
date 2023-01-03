@@ -1,76 +1,87 @@
 var startGame = document.getElementById("start");
 var timer = document.querySelector("#score");
-var word = document.querySelector("#guess-word");
-
+// var word = document.querySelector("#guess-word");
+var gameWindow = document.getElementById("game-window");
+//variable that sets the timer
+var secondsLeft = 50;
+var word = [];
+var userAnswer = [];
 
 //Triggers to start the game
 startGame.addEventListener("click", gameApp);
 
-
-//variable that sets the timer
-var secondsLeft = 50;
-
+/// create a function to start the game
+    // starts the timer function
+    // starts random word function
+function gameApp () {
+    timerStarts();
+    randomWord(wordList);
+}
 
 // function for timer
 function timerStarts() {
-
     var timerInterval = setInterval (function() {
         secondsLeft--;
         timer.textContent = secondsLeft + " left";
-
         if(secondsLeft === 0) {
             clearInterval(timerInterval);
             alert = "GAME ENDS";
         }
     },1000);
 }
-    // startTimer.textContent = "Time Reduced";
-    //function deductTime () {
-    //  secondsLeft = secondsLeft - 10;
-    //} 
-
-
-/// create a function to start the game
-function gameApp () {
-    console.log('game starts now');
-    // starts the timer function
-    timerStarts();
-    // starts random word function
-    randomWord(wordList);
-}
-
 
 /// create function for random word
-function randomWord(Array) {
     // pull random words from array of strings
-    var index = Math.floor(Math.random() * Array.length);
     // rendering the word on the screen
+function randomWord(Array) {
+    var index = Math.floor(Math.random() * Array.length);
+    word = Array[index].split('');
+    userAnswer = Array[index].split('');
+
     console.log('random word will be ', Array[index]);
-    renderWord(Array[index]);
+    renderWord(word);
 }
 
 // rendering word
-function renderWord(word) {
+function renderWord(letters) {
     // split the word into characters
-    var characters = word.split('');
-    // render each character on its on
-    // 
-    // render B
-    // render _
-    // render W
 
-    console.log(characters);
+    console.log(letters);
+    var hiddenLetters = Math.floor(Math.random() * letters.length);
+    console.log(hiddenLetters);
+    // render each character on its on
+    for (var i = 0; i < letters.length; i++) {
+        var p = document.createElement("p");
+        if (i !== hiddenLetters) {
+            p.textContent = letters[i];
+            gameWindow.appendChild(p);
+        } else {
+            p.textContent = '_';
+            gameWindow.appendChild(p);
+        }
+      }
 }
 
 // function user input
-function userInput(letter) {
+// function userInput(letter) {
+//     if (letter === hiddenLetters) {
+//         renderWord()
+//     }
 
-}
+// }
 
 //listen to user keyboard press
 window.addEventListener("keydown", function(event) {
-    userInput(event.key);
+    // userInput(event.key);
     console.log(event.key);
+    console.log(gameWindow.children.length);
+    for (var i = 0; i < gameWindow.children.length; i++) {
+        console.log(gameWindow.children[i].textContent);
+        if (gameWindow.children[i].textContent === '_' && word[i] === event.key) {
+            gameWindow.children[i].textContent = event.key;
+            console.log('you win');
+        }
+    }
 });
 
 // function to keep scores in storage
